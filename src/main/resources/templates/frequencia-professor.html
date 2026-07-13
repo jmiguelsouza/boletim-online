@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Frequência Professor</title>
+
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Segoe UI",Arial,sans-serif;
+        }
+
+
+        body{
+
+            min-height:100vh;
+            padding:40px;
+
+            background:
+            radial-gradient(circle at top left,#60a5fa55,transparent 40%),
+            radial-gradient(circle at bottom right,#2563eb44,transparent 40%),
+            linear-gradient(135deg,#dbeafe,#f8fbff);
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+        }
+
+
+        /* cartão principal */
+
+        .container{
+
+            width:100%;
+            max-width:1050px;
+
+            background:rgba(255,255,255,.92);
+
+            padding:45px;
+
+            border-radius:30px;
+
+            box-shadow:
+            0 25px 70px rgba(37,99,235,.25);
+
+            animation:entrada .5s ease;
+
+        }
+
+
+        @keyframes entrada{
+
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+
+        }
+
+
+
+        h1{
+
+            color:#1d3557;
+            font-size:34px;
+            margin-bottom:15px;
+
+        }
+
+
+
+        p{
+
+            color:#64748b;
+            font-size:17px;
+            margin-bottom:25px;
+
+        }
+
+
+
+        label{
+
+            color:#1e3a8a;
+            font-weight:bold;
+
+        }
+
+
+
+        input{
+
+            padding:12px;
+
+            border-radius:12px;
+
+            border:2px solid #dbeafe;
+
+            width:120px;
+
+            text-align:center;
+
+            outline:none;
+
+            transition:.3s;
+
+        }
+
+
+
+        input:focus{
+
+            border-color:#156fe7;
+
+            box-shadow:
+            0 0 12px #156fe755;
+
+        }
+
+
+
+
+        table{
+
+            width:100%;
+
+            margin-top:35px;
+
+            border-collapse:separate;
+
+            border-spacing:0;
+
+            overflow:hidden;
+
+            border-radius:18px;
+
+        }
+
+
+
+        th{
+
+            background:linear-gradient(
+            90deg,
+            #156fe7,
+            #2563eb
+            );
+
+            color:white;
+
+            padding:18px;
+
+        }
+
+
+
+        td{
+
+            padding:18px;
+
+            text-align:center;
+
+            background:#f8fbff;
+
+            border-bottom:1px solid #dbeafe;
+
+        }
+
+
+
+        tr{
+
+            transition:.2s;
+
+        }
+
+
+
+        tr:hover td{
+
+            background:#eef6ff;
+
+        }
+
+
+
+        /* botão salvar */
+
+
+        button{
+
+            margin-top:30px;
+
+            padding:14px 30px;
+
+            border:none;
+
+            border-radius:15px;
+
+            background:#16a34a;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:.3s;
+
+            box-shadow:
+            0 10px 25px #16a34a55;
+
+        }
+
+
+
+        button:hover{
+
+            transform:translateY(-3px);
+
+            background:#15803d;
+
+        }
+
+
+
+
+
+        .voltar{
+
+
+            display:inline-flex;
+
+            margin-top:30px;
+
+            margin-left:15px;
+
+            padding:14px 28px;
+
+
+            background:#eff6ff;
+
+            color:#156fe7;
+
+
+            border-radius:15px;
+
+            text-decoration:none;
+
+            font-weight:bold;
+
+
+            transition:.3s;
+
+
+        }
+
+
+
+        .voltar:hover{
+
+            background:#dbeafe;
+
+            transform:translateX(-5px);
+
+        }
+
+
+
+        /* mensagens */
+
+
+        .mensagem{
+
+
+            position:fixed;
+
+            top:30px;
+
+            left:50%;
+
+            transform:translateX(-50%);
+
+
+            padding:15px 35px;
+
+
+            border-radius:18px;
+
+
+            color:white;
+
+            font-weight:bold;
+
+
+            animation:aparecer .3s ease;
+
+
+        }
+
+
+
+        @keyframes aparecer{
+
+        from{
+
+        opacity:0;
+        transform:translate(-50%,-20px);
+
+        }
+
+        to{
+
+        opacity:1;
+        transform:translate(-50%,0);
+
+        }
+
+        }
+
+
+
+        .erro{
+
+        background:#dc2626;
+
+        box-shadow:
+        0 10px 30px #dc262655;
+
+        }
+
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+
+<div class="container">
+
+    <div th:if="${erro}"
+         class="mensagem erro"
+         th:text="${erro}">
+    </div>
+
+    <h1>
+        Lançar Frequência 📋
+    </h1>
+
+
+    <p>
+        Professor:
+        <span th:text="${professor.nome}"></span>
+    </p>
+
+
+
+    <form action="/professor/salvar-frequencia"
+          method="post">
+
+
+
+        <input type="hidden"
+               name="disciplinaId"
+               th:value="${disciplinaId}">
+
+
+        <input type="hidden"
+               name="periodo"
+               th:value="${periodo}">
+
+
+
+        <label>
+            Total de aulas dadas:
+        </label>
+
+
+        <input type="number"
+               name="totalAulas"
+               min="1"
+               required
+               th:value="${totalAulas}">
+
+
+
+        <table>
+
+
+            <tr>
+
+                <th>
+                    Aluno
+                </th>
+
+
+                <th>
+                    Presenças
+                </th>
+
+
+            </tr>
+
+
+
+            <tr th:each="aluno:${alunos}">
+
+
+                <td>
+
+<span th:text="${aluno.nome}">
+</span>
+
+
+                </td>
+
+
+                <td>
+
+
+                    <input type="number"
+                           min="0"
+                           name="presencas"
+                           required
+                           th:value="${mapaPresencas[aluno.matricula]}">
+
+
+                    <input type="hidden"
+                           name="matriculaAluno"
+                           th:value="${aluno.matricula}">
+
+
+                </td>
+
+
+
+            </tr>
+
+
+        </table>
+
+
+
+        <button type="submit">
+
+            Salvar frequência
+
+        </button>
+        <a class="voltar"
+           th:href="@{/professor/notas(
+            disciplinaId=${disciplinaId},
+            periodo=${periodo}
+            )}">
+
+            ← Voltar
+
+        </a>
+
+
+
+
+    </form>
+
+
+</div>
+<script>
+
+    setTimeout(function(){
+
+    document
+    .querySelectorAll(".mensagem")
+    .forEach(function(msg){
+
+    msg.style.opacity="0";
+
+    setTimeout(function(){
+
+    msg.remove();
+
+    },500);
+
+    });
+
+
+    },3000);
+
+
+</script>
+
+
+</body>
+
+
+</html>

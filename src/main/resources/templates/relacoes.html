@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Relações de Ensino</title>
+
+
+    <style>
+
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        }
+
+
+        body{
+
+    font-family:"Segoe UI",Arial,sans-serif;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+
+    align-items:flex-start;
+
+    padding:30px;
+
+    background:
+    radial-gradient(circle at top left,#bfdbfe,transparent 35%),
+    radial-gradient(circle at bottom right,#dbeafe,transparent 35%),
+    linear-gradient(135deg,#eff6ff,#ffffff);
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+}
+
+
+
+        /* logo fundo */
+
+        .logo-fundo{
+
+        position:fixed;
+
+        right:35px;
+        bottom:25px;
+
+        width:260px;
+
+        opacity:.10;
+
+        filter:drop-shadow(0 20px 25px rgba(0,0,0,.2));
+
+        animation:flutuar 6s infinite ease-in-out;
+
+        z-index:-1;
+
+        }
+
+
+
+        @keyframes flutuar{
+
+        0%{
+        transform:translateY(0);
+        }
+
+        50%{
+        transform:translateY(-15px);
+        }
+
+        100%{
+        transform:translateY(0);
+        }
+
+        }
+
+
+
+        /* card */
+
+        .container{
+
+        width:100%;
+
+        max-width:950px;
+
+        background:rgba(255,255,255,.90);
+
+        backdrop-filter:blur(12px);
+
+        border-radius:30px;
+
+        box-shadow:
+        0 25px 60px rgba(30,64,175,.20);
+
+        overflow:hidden;
+
+        animation:entrada .5s;
+
+        }
+
+
+
+        @keyframes entrada{
+
+        from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+        }
+
+        to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+        }
+
+        }
+
+
+
+        .topo{
+
+        height:9px;
+
+        background:
+        linear-gradient(90deg,#156fe7,#60a5fa,#156fe7);
+
+        }
+
+
+
+        .conteudo{
+
+        padding:40px;
+
+        }
+
+
+
+        .titulo{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:18px;
+
+        margin-bottom:30px;
+
+        }
+
+
+
+        .icone{
+
+        width:70px;
+
+        height:70px;
+
+        border-radius:22px;
+
+        background:
+        linear-gradient(135deg,#156fe7,#60a5fa);
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        font-size:32px;
+
+        color:white;
+
+        box-shadow:
+        0 12px 25px rgba(21,111,231,.35);
+
+        }
+
+
+
+        h1{
+
+        color:#1d3557;
+
+        font-size:28px;
+
+        }
+
+
+
+        .subtitulo{
+
+        color:#64748b;
+
+        margin-top:6px;
+
+        }
+
+        .tabela{
+
+        width:100%;
+
+        border-collapse:separate;
+
+        border-spacing:0 12px;
+
+        }
+
+
+
+        th{
+
+        background:#156fe7;
+
+        color:white;
+
+        padding:16px;
+
+        text-align:left;
+
+        }
+
+
+
+        th:first-child{
+
+        border-radius:14px 0 0 14px;
+
+        }
+
+
+        th:last-child{
+
+        border-radius:0 14px 14px 0;
+
+        }
+
+
+
+        td{
+
+        background:#f8fbff;
+
+        padding:18px;
+
+        color:#334155;
+
+        font-weight:600;
+
+        }
+
+
+
+        td:first-child{
+
+        border-radius:14px 0 0 14px;
+
+        }
+
+
+
+        td:last-child{
+
+        border-radius:0 14px 14px 0;
+
+        }
+
+
+
+        tr{
+
+        transition:.25s;
+
+        }
+
+
+
+        tr:hover{
+
+        transform:scale(1.02);
+
+        }
+
+
+
+
+        .btn-excluir{
+
+        background:
+        linear-gradient(135deg,#ef4444,#dc2626);
+
+        border:none;
+
+        color:white;
+
+        padding:11px 18px;
+
+        border-radius:12px;
+
+        font-weight:bold;
+
+        cursor:pointer;
+
+        transition:.25s;
+
+        }
+
+
+
+        .btn-excluir:hover{
+
+        transform:translateY(-3px);
+
+        box-shadow:
+        0 12px 20px rgba(239,68,68,.30);
+
+        }
+
+
+
+
+        .btn-voltar{
+
+        display:inline-flex;
+
+        margin-top:25px;
+
+        text-decoration:none;
+
+        background:white;
+
+        color:#2563eb;
+
+        border:1px solid #bfdbfe;
+
+        padding:13px 24px;
+
+        border-radius:14px;
+
+        font-weight:bold;
+
+        transition:.25s;
+
+        }
+
+
+
+        .btn-voltar:hover{
+
+        background:#eff6ff;
+
+        transform:translateX(-3px);
+
+        }
+
+
+
+
+        /* MODAL */
+
+        .modal{
+
+        display:none;
+
+        position:fixed;
+
+        inset:0;
+
+        background:rgba(15,23,42,.45);
+
+        backdrop-filter:blur(5px);
+
+        align-items:center;
+
+        justify-content:center;
+
+        }
+
+
+
+        .caixa-modal{
+
+        background:white;
+
+        padding:35px;
+
+        border-radius:25px;
+
+        width:380px;
+
+        text-align:center;
+
+        box-shadow:
+        0 30px 70px rgba(0,0,0,.3);
+
+        animation:entrada .25s;
+
+        }
+
+
+
+        .caixa-modal h2{
+
+        color:#1d3557;
+
+        margin-bottom:15px;
+
+        }
+
+
+
+        .caixa-modal p{
+
+        color:#64748b;
+
+        margin-bottom:25px;
+
+        }
+
+
+
+        .btn-confirmar{
+
+        background:#ef4444;
+
+        color:white;
+
+        border:none;
+
+        padding:13px 25px;
+
+        border-radius:12px;
+
+        font-weight:bold;
+
+        cursor:pointer;
+
+        }
+
+
+
+        .btn-cancelar{
+
+        background:#e2e8f0;
+
+        color:#334155;
+
+        border:none;
+
+        padding:13px 25px;
+
+        border-radius:12px;
+
+        font-weight:bold;
+
+        cursor:pointer;
+
+        margin-left:10px;
+
+        }
+        .sucesso{
+
+            background:#dcfce7;
+
+            color:#166534;
+
+            padding:16px;
+
+            border-radius:14px;
+
+            text-align:center;
+
+            font-weight:700;
+
+            margin-bottom:20px;
+
+            box-shadow:
+            0 10px 25px rgba(22,101,52,.15);
+
+            animation:entrada .4s;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<img src="/img/logo.png" class="logo-fundo">
+
+
+
+<div class="container">
+
+
+    <div class="topo"></div>
+
+
+    <div class="conteudo">
+
+        <div class="sucesso"
+             th:if="${sucesso}"
+             id="mensagemSucesso"
+             th:text="${sucesso}">
+        </div>
+
+        <div class="titulo">
+
+
+            <div class="icone">
+
+                🔗
+
+            </div>
+
+
+            <div>
+
+                <h1>
+                    Relações de Ensino
+                </h1>
+
+
+                <p class="subtitulo">
+                    Professores, matérias e períodos cadastrados
+                </p>
+
+            </div>
+
+
+        </div>
+
+        <table class="tabela">
+
+
+            <tr>
+
+                <th>Professor</th>
+
+                <th>Matéria</th>
+
+                <th>Período</th>
+
+                <th>Ação</th>
+
+            </tr>
+
+
+
+            <tr th:each="r : ${relacoes}">
+
+
+                <td th:text="${r.professor.nome}">
+                </td>
+
+
+                <td th:text="${r.disciplina.nome}">
+                </td>
+
+
+                <td th:text="${r.periodo}">
+                </td>
+
+
+                <td>
+
+
+                    <button class="btn-excluir"
+                            th:onclick="'abrirModal('+${r.id}+')'">
+
+                        🗑 Excluir
+
+                    </button>
+
+
+                </td>
+
+
+            </tr>
+
+
+        </table>
+
+
+
+        <a href="/admin/disciplina" class="btn-voltar">
+
+            ← Voltar ao painel
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="modal" id="modalExcluir">
+
+
+    <div class="caixa-modal">
+
+
+        <h2>
+            Excluir relação?
+        </h2>
+
+
+        <p>
+            Essa ação não poderá ser desfeita.
+        </p>
+
+
+        <button class="btn-confirmar"
+                onclick="confirmarExcluir()">
+
+            Excluir
+
+        </button>
+
+
+
+        <button class="btn-cancelar"
+                onclick="fecharModal()">
+
+            Cancelar
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+    let idExcluir;
+
+
+    function abrirModal(id){
+
+    idExcluir=id;
+
+    document.getElementById("modalExcluir")
+    .style.display="flex";
+
+    }
+
+
+
+    function fecharModal(){
+
+    document.getElementById("modalExcluir")
+    .style.display="none";
+
+    }
+
+
+
+    function confirmarExcluir(){
+
+    window.location.href=
+    "/admin/excluir-relacao/"+idExcluir;
+
+    }
+
+
+
+    setTimeout(function(){
+
+    let msg=document.getElementById("mensagemSucesso");
+
+    if(msg){
+
+    msg.style.display="none";
+
+    }
+
+    },4000);
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

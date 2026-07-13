@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Usuário</title>
+
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 10% 20%, rgba(59,130,246,0.15), transparent 250px),
+            radial-gradient(circle at 85% 80%, rgba(96,165,250,0.15), transparent 300px),
+            linear-gradient(135deg, #eef4ff, #f8fbff, #edf3ff);
+        overflow-x: hidden;
+    }
+
+    /* GRID */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(rgba(59,130,246,0.12) 1px, transparent 1px);
+        background-size: 25px 25px;
+        animation: gridMove 18s ease-in-out infinite;
+    }
+
+    /* CÍRCULOS */
+    .circulo {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(96,165,250,0.25), transparent);
+        animation: float 6s ease-in-out infinite;
+        z-index: 0;
+    }
+    .c1 { width: 200px; height: 200px; top: 80px; left: 40px; }
+    .c2 { width: 150px; height: 150px; bottom: 100px; right: 60px; animation-delay: 1s; }
+
+    /* LINHAS */
+    .linha {
+        position: fixed;
+        background: linear-gradient(to bottom, transparent, rgba(59,130,246,0.5), transparent);
+        opacity: 0.6;
+        z-index: 0;
+    }
+    .l1 { width: 2px; height: 150px; left: 200px; top: 150px; }
+    .l2 { width: 120px; height: 2px; left: 200px; top: 220px; }
+
+    /* CONTAINER */
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 50px auto;
+    }
+
+    .form-box {
+        background: rgba(255,255,255,0.85);
+        border-radius: 25px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 40px rgba(59,130,246,0.15);
+        overflow: hidden;
+    }
+
+    /* FAIXA RGB */
+    .top-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #60a5fa, #2563eb, #3b82f6, #60a5fa);
+        background-size: 300%;
+        animation: gradientMove 4s linear infinite;
+    }
+
+    .form-content {
+        padding: 30px;
+    }
+
+    h2 {
+        color: #1e3a8a;
+        margin-bottom: 20px;
+    }
+
+    /* CAMPOS */
+    .campo {
+        margin-bottom: 15px;
+    }
+
+    .campo label {
+        font-weight: bold;
+        color: #3b82f6;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .campo input,
+    .campo select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #cfe0ff;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .campo input:focus,
+    .campo select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 8px rgba(59,130,246,0.2);
+    }
+
+    /* BOTÃO */
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes float {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @keyframes gradientMove {
+        0% { background-position: 0%; }
+        100% { background-position: 100%; }
+    }
+
+    @keyframes gridMove {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(6px); }
+    }
+    .acoes-topo {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .botao {
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+    .botao-voltar {
+        background: rgba(255, 255, 255, 0.75);
+        color: #28508a;
+        border: 1px solid #c8dbfb;
+    }
+
+    .botao-voltar:hover {
+        background: #f3f8ff;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<!-- FUNDO -->
+<div class="circulo c1"></div>
+<div class="circulo c2"></div>
+<div class="linha l1"></div>
+<div class="linha l2"></div>
+
+<div class="container">
+  <div class="form-box">
+    <div class="top-bar"></div>
+
+      <div class="form-content">
+
+          <div class="acoes-topo">
+            <a th:href="
+            ${origem == 'alunos'} ? '/admin/alunos' :
+            (${origem == 'minha-conta'} ? '/minha-conta' : '/admin/professores')
+            "
+                           class="botao botao-voltar">
+
+              ← Voltar
+            </a>
+          </div>
+
+      <form action="/atualizar-usuario" method="post">
+
+        <input type="hidden" name="matricula" th:value="${usuario.matricula}">
+
+        <div class="campo">
+          <label>Nome</label>
+          <input type="text" name="nome" th:value="${usuario.nome}" required>
+        </div>
+
+        <div class="campo">
+          <label>Email</label>
+          <input type="email" name="email" th:value="${usuario.email}" required>
+        </div>
+
+        <div class="campo">
+          <label>Senha</label>
+          <input type="password" name="senha" th:value="${usuario.senha}" required>
+        </div>
+
+        <div class="campo">
+          <label>CPF</label>
+          <input type="text" name="cpf" id="cpf" th:value="${usuario.cpf}" maxlength="14" required>
+        </div>
+
+        <div class="campo">
+          <label>Data de Nascimento</label>
+          <input type="date" name="dataNascimento" th:value="${usuario.dataNascimento}" required>
+        </div>
+
+        <div class="campo">
+          <label>Tipo de Usuário</label>
+          <select name="tipoUsuario" id="tipoUsuario">
+            <option value="aluno" th:selected="${usuario.tipoUsuario == 'aluno'}">Aluno</option>
+            <option value="professor" th:selected="${usuario.tipoUsuario == 'professor'}">Professor</option>
+            <option value="admin" th:selected="${usuario.tipoUsuario == 'admin'}">Administrador</option>
+          </select>
+        </div>
+        <div class="campo"
+             th:if="${usuario.tipoUsuario != 'professor'}">
+
+          <label>Período</label>
+
+          <select name="periodoTurma" id="periodoTurma">
+
+            <option value="Primeiro"
+                    th:selected="${usuario.periodoTurma == 'Primeiro'}">
+              Primeiro
+            </option>
+
+            <option value="Segundo"
+                    th:selected="${usuario.periodoTurma == 'Segundo'}">
+              Segundo
+            </option>
+
+            <option value="Terceiro"
+                    th:selected="${usuario.periodoTurma == 'Terceiro'}">
+              Terceiro
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="campo"
+             th:if="${usuario.tipoUsuario == 'professor'}">
+            <label>
+              Períodos que o professor atende
+            </label>
+            <div>
+                <label>
+
+                  <input type="checkbox"
+                         name="periodosProfessor"
+                         value="Primeiro"
+                         th:checked="${periodosProfessor != null and periodosProfessor.?[periodo=='Primeiro'].size() > 0}">
+
+                      Primeiro
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox"
+                          name="periodosProfessor"
+                          value="Segundo"
+                          th:checked="${periodosProfessor != null and periodosProfessor.?[periodo=='Segundo'].size() > 0}">
+
+                          Segundo
+                </label>
+                <label>
+
+                  <input type="checkbox"
+                         name="periodosProfessor"
+                         value="Terceiro"
+                         th:checked="${periodosProfessor != null and periodosProfessor.?[periodo=='Terceiro'].size() > 0}">
+                          Terceiro
+                </label>
+            </div>
+        </div>
+        <button type="submit">Salvar Alterações</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const cpfInput = document.getElementById("cpf");
+
+  cpfInput.addEventListener("input", function () {
+      let v = cpfInput.value.replace(/\D/g, "");
+
+      if (v.length > 11) v = v.slice(0, 11);
+
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+      cpfInput.value = v;
+  });
+</script>
+<script>
+
+  const tipoUsuario = document.getElementById("tipoUsuario");
+  const periodo = document.getElementById("periodoTurma");
+
+  function controlarPeriodo(){
+
+      if(tipoUsuario.value === "admin"){
+
+          periodo.value = "";
+          periodo.disabled = true;
+      } else {
+
+          periodo.disabled = false;
+      }
+  }
+
+  tipoUsuario.addEventListener("change", controlarPeriodo);
+  // executa ao abrir a página
+  controlarPeriodo();
+
+</script>
+
+</body>
+</html>

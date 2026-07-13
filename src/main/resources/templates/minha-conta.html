@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Conta - Boletim Online</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:#eef5ff;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:30px;
+            position:relative;
+            overflow-x:hidden;
+        }
+
+        /* Círculos decorativos */
+
+        body::before{
+            content:"";
+            position:fixed;
+            width:320px;
+            height:320px;
+            background:rgba(59,130,246,.12);
+            border-radius:50%;
+            left:-120px;
+            top:40px;
+        }
+
+        body::after{
+            content:"";
+            position:fixed;
+            width:380px;
+            height:380px;
+            background:rgba(59,130,246,.12);
+            border-radius:50%;
+            right:-150px;
+            bottom:-80px;
+        }
+
+        .circulo1{
+            position:fixed;
+            width:180px;
+            height:180px;
+            background:rgba(59,130,246,.08);
+            border-radius:50%;
+            right:120px;
+            top:180px;
+        }
+
+        .circulo2{
+            position:fixed;
+            width:90px;
+            height:90px;
+            background:rgba(59,130,246,.08);
+            border-radius:50%;
+            left:150px;
+            bottom:120px;
+        }
+
+        .circulo3{
+            position:fixed;
+            width:60px;
+            height:60px;
+            background:rgba(59,130,246,.08);
+            border-radius:50%;
+            right:300px;
+            top:120px;
+        }
+
+        .container{
+            width:900px;
+            background:white;
+            border-radius:30px;
+            padding:40px;
+            position:relative;
+            z-index:2;
+            overflow:hidden;
+
+            box-shadow:
+            0 25px 60px rgba(0,0,0,.08),
+            0 8px 20px rgba(59,130,246,.08);
+        }
+
+        /* Barra RGB Azul */
+
+        .container::before{
+            content:"";
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:8px;
+
+            background:linear-gradient(
+            90deg,
+            #1d4ed8,
+            #2563eb,
+            #3b82f6,
+            #60a5fa,
+            #3b82f6,
+            #2563eb,
+            #1d4ed8);
+
+            background-size:300% 100%;
+            animation:rgbAzul 5s linear infinite;
+        }
+
+        @keyframes rgbAzul{
+            0%{
+                background-position:0% 50%;
+            }
+
+            100%{
+                background-position:100% 50%;
+            }
+        }
+
+        .titulo{
+            display:flex;
+            align-items:center;
+            gap:20px;
+            margin-bottom:25px;
+        }
+
+        .icone{
+            width:70px;
+            height:70px;
+            background:linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6);
+
+            border-radius:20px;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            font-size:30px;
+            color:white;
+
+            box-shadow:
+            0 10px 25px rgba(59,130,246,.35);
+        }
+
+        .titulo h1{
+            color:#223a5e;
+            font-size:42px;
+        }
+
+        .subtitulo{
+            color:#64748b;
+            margin-top:6px;
+        }
+
+        hr{
+            border:none;
+            border-top:1px solid #dbeafe;
+            margin:25px 0;
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+        }
+
+        .card-info{
+            background:white;
+            border:1px solid #dbeafe;
+            border-radius:18px;
+            padding:22px;
+
+            box-shadow:
+            0 4px 15px rgba(0,0,0,.04);
+
+            transition:.3s;
+        }
+
+        .card-info:hover{
+            transform:translateY(-5px);
+
+            box-shadow:
+            0 12px 25px rgba(59,130,246,.15);
+        }
+
+        .label{
+            color:#64748b;
+            font-size:13px;
+            text-transform:uppercase;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        .valor{
+            color:#223a5e;
+            font-size:20px;
+            font-weight:600;
+        }
+
+        .botoes{
+            margin-top:35px;
+            display:flex;
+            gap:15px;
+        }
+
+        .btn{
+            text-decoration:none;
+            color:white;
+            padding:14px 26px;
+            border-radius:12px;
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            transform:translateY(-3px);
+
+            box-shadow:
+            0 10px 20px rgba(0,0,0,.15);
+        }
+
+        .btn-voltar{
+            background:linear-gradient(
+            135deg,
+            #64748b,
+            #475569);
+        }
+
+        .btn-editar{
+            background:linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6);
+        }
+
+        .voltar{
+
+display:inline-block;
+
+margin-top:30px;
+
+text-decoration:none;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
+color:white;
+
+padding:14px 25px;
+
+border-radius:15px;
+
+font-weight:bold;
+
+transition:.3s;
+
+box-shadow:
+0 10px 20px rgba(37,99,235,.30);
+
+}
+
+.voltar:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+0 15px 30px rgba(37,99,235,.40);
+
+}
+    </style>
+
+</head>
+
+<body>
+
+<div class="circulo1"></div>
+<div class="circulo2"></div>
+<div class="circulo3"></div>
+
+<div class="container">
+
+    <div class="titulo">
+
+        <div class="icone">
+            👤
+        </div>
+
+        <div>
+            <h1>Minha Conta</h1>
+            <p class="subtitulo">
+                Informações da conta atualmente logada
+            </p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="grid">
+
+        <div class="card-info">
+            <div class="label">Nome</div>
+            <div class="valor" th:text="${usuario.nome}"></div>
+        </div>
+
+        <div class="card-info">
+            <div class="label">Email</div>
+            <div class="valor" th:text="${usuario.email}"></div>
+        </div>
+
+        <div class="card-info">
+            <div class="label">CPF</div>
+            <div class="valor" th:text="${usuario.cpf}"></div>
+        </div>
+
+        <div class="card-info">
+            <div class="label">Tipo de Usuário</div>
+            <div class="valor" th:text="${usuario.tipoUsuario}"></div>
+        </div>
+
+        <div class="card-info">
+            <div class="label">Matrícula</div>
+            <div class="valor" th:text="${usuario.matricula}"></div>
+        </div>
+
+        <div class="card-info">
+            <div class="label">Período</div>
+            <div class="valor" th:text="${usuario.periodoTurma}"></div>
+        </div>
+
+    </div>
+
+    <div class="botoes">
+
+        <a th:if="${usuario.tipoUsuario == 'admin'}"
+           href="/admin"
+           class="btn btn-voltar">
+
+            Voltar
+        </a>
+
+        <a th:if="${usuario.tipoUsuario == 'professor'}"
+           href="/notas"
+           class="btn btn-voltar">
+
+            Voltar
+        </a>
+
+        <a th:if="${usuario.tipoUsuario == 'aluno'}"
+           href="/boletim"
+           class="voltar">
+            ⬅ Voltar
+        </a>
+
+        <a th:if="${usuario.tipoUsuario == 'admin'}"
+           th:href="@{/editar-usuario/{matricula}(matricula=${usuario.matricula})}"
+           class="btn btn-editar">
+
+            Editar Dados
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Boletim Professor</title>
+
+
+    <style>
+
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:"Segoe UI",Arial,sans-serif;
+        }
+
+        body{
+        min-height:100vh;
+        padding:30px;
+        background:linear-gradient(135deg,#dbeafe,#f8fbff,#eaf3ff);
+        display:flex;
+        justify-content:center;
+        }
+
+
+        .container{
+        width:100%;
+        max-width:1200px;
+        background:white;
+        border-radius:28px;
+        overflow:hidden;
+        box-shadow:0 25px 60px rgba(37,99,235,.2);
+        }
+
+
+        .topo{
+        height:8px;
+        background:linear-gradient(90deg,#156fe7,#60a5fa,#156fe7);
+        }
+
+
+        .conteudo{
+        padding:40px;
+        }
+
+
+        h1{
+        color:#1d3557;
+        font-size:32px;
+        }
+
+
+        .sub{
+        color:#64748b;
+        margin-top:10px;
+        }
+
+
+        button{
+
+        margin-top:20px;
+        padding:13px 25px;
+        border:none;
+        border-radius:14px;
+        cursor:pointer;
+        font-weight:bold;
+        background:#156fe7;
+        color:white;
+
+        }
+
+
+        .btn-avaliacao{
+        background:#16a34a;
+        }
+
+        .btn-frequencia{
+
+        display:inline-block;
+
+        margin-top:20px;
+
+        margin-left:15px;
+
+        padding:13px 25px;
+
+        border-radius:14px;
+
+        background:#2563eb;
+
+        color:white;
+
+        text-decoration:none;
+
+        font-weight:bold;
+
+        transition:.3s;
+
+        }
+
+
+        .btn-frequencia:hover{
+
+        background:#1d4ed8;
+
+    }
+
+
+        .avaliacao-box{
+
+        margin-top:25px;
+        background:#f8fbff;
+        padding:25px;
+        border-radius:20px;
+        display:none;
+
+        }
+
+
+        .abrir{
+        display:block;
+        }
+
+
+        input{
+
+        padding:10px;
+        border-radius:10px;
+        border:1px solid #cbd5e1;
+        width:90px;
+        text-align:center;
+
+        }
+
+
+        table{
+
+        width:100%;
+        margin-top:30px;
+        border-collapse:collapse;
+
+        }
+
+
+        th{
+
+        background:#156fe7;
+        color:white;
+        padding:15px;
+
+        }
+
+
+        td{
+
+        padding:12px;
+        background:#f8fbff;
+        text-align:center;
+        border-bottom:1px solid #dbeafe;
+
+        }
+
+
+        .nome-aluno{
+
+        font-weight:bold;
+        color:#1e3a8a;
+
+        }
+
+
+        .media{
+
+        font-weight:bold;
+        color:#16a34a;
+        font-size:18px;
+
+        }
+        .frequencia{
+
+            display:inline-block;
+
+            min-width:70px;
+
+            padding:8px 12px;
+
+            border-radius:12px;
+
+            background:#dbeafe;
+
+            color:#2563eb;
+
+            font-weight:bold;
+
+        }
+
+
+        .voltar{
+
+        display:inline-flex;
+        margin-top:35px;
+        padding:12px 25px;
+        background:#eff6ff;
+        color:#156fe7;
+        border-radius:14px;
+        text-decoration:none;
+        font-weight:bold;
+
+        }
+        .btn-excluir{
+
+        background:#dc2626;
+        color:white;
+
+        border:none;
+
+        padding:6px 10px;
+
+        border-radius:8px;
+
+        cursor:pointer;
+
+        margin-left:8px;
+
+        }
+
+
+        .modal{
+
+        display:none;
+
+        position:fixed;
+
+        top:0;
+        left:0;
+
+        width:100%;
+        height:100%;
+
+        background:rgba(0,0,0,.4);
+
+        align-items:center;
+        justify-content:center;
+
+        }
+
+
+        .modal.ativo{
+
+        display:flex;
+
+        }
+
+
+        .caixa-modal{
+
+        background:white;
+
+        padding:30px;
+
+        border-radius:20px;
+
+        text-align:center;
+
+        }
+
+
+        .mensagem{
+
+        position:fixed;
+
+        top:30px;
+
+        left:50%;
+
+        transform:translateX(-50%);
+
+        padding:15px 30px;
+
+        border-radius:15px;
+
+        color:white;
+
+        font-weight:bold;
+
+        z-index:999;
+
+        }
+
+
+        .erro{
+
+        background:#dc2626;
+
+        }
+
+
+        .sucesso{
+
+        background:#16a34a;
+
+        }
+
+        .aprovado{
+
+        color:#16a34a;
+        font-weight:bold;
+        font-size:18px;
+
+        }
+
+
+        .reprovado{
+
+        color:#dc2626;
+        font-weight:bold;
+        font-size:18px;
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="topo"></div>
+
+
+    <div class="conteudo">
+        <div th:if="${erro}"
+             class="mensagem erro"
+             th:text="${erro}">
+        </div>
+
+
+        <div th:if="${sucesso}"
+             class="mensagem sucesso"
+             th:text="${sucesso}">
+        </div>
+
+
+
+        <h1>
+            Boletim da Turma 👨‍🏫
+        </h1>
+
+
+        <p class="sub">
+
+            Professor:
+
+            <span th:text="${professor.nome}">
+</span>
+
+        </p>
+
+
+
+        <button class="btn-avaliacao"
+                onclick="abrirAvaliacao()">
+
+            + Adicionar avaliação
+
+        </button>
+
+        <a class="btn-frequencia"
+           th:href="@{/professor/frequencia(
+           disciplinaId=${disciplinaId},
+           periodo=${periodo}
+           )}">
+
+            📋 Lançar frequência
+
+        </a>
+
+
+
+
+        <div class="avaliacao-box"
+             id="avaliacaoBox">
+
+
+            <h3>
+                Nova avaliação
+            </h3>
+
+
+            <form action="/professor/criar-avaliacao"
+                  method="post">
+
+
+                <input type="hidden"
+                       name="disciplinaId"
+                       th:value="${disciplinaId}">
+
+
+                <input type="hidden"
+                       name="periodo"
+                       th:value="${periodo}">
+
+
+                <br><br>
+
+
+                <input type="text"
+                       name="descricao"
+                       placeholder="Ex: Prova 1"
+                       required
+                       style="width:250px">
+
+
+                <button type="submit">
+
+                    Criar
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+
+
+
+        <form action="/professor/salvar-notas"
+              method="post">
+
+
+            <input type="hidden"
+                   name="disciplinaId"
+                   th:value="${disciplinaId}">
+
+
+            <input type="hidden"
+                   name="periodo"
+                   th:value="${periodo}">
+
+
+
+            <h2 style="margin-top:35px;color:#1d3557">
+
+                Notas dos alunos 📋
+
+            </h2>
+
+
+            <table>
+
+
+                <tr>
+
+
+                    <th>
+                        Aluno
+                    </th>
+
+
+                    <th th:each="a:${avaliacoes}">
+
+                        <span th:text="${a.descricao}">
+                        </span>
+
+
+                        <button type="button"
+                                class="btn-excluir"
+                                th:onclick="'abrirExcluir('+${a.id}+')'">
+
+                            🗑️
+
+                        </button>
+                    </th>
+
+                    <th>
+                        Frequência
+                    </th>
+
+                    <th>
+                        Média
+                    </th>
+
+                    <th>
+                        Situação
+                    </th>
+
+                </tr>
+
+
+
+
+
+                <tr th:each="aluno:${alunos}">
+
+
+
+                    <td class="nome-aluno">
+
+
+<span th:text="${aluno.nome}">
+</span>
+
+
+                    </td>
+
+
+
+
+                    <td th:each="a:${avaliacoes}">
+
+
+                        <!-- agora cada nota leva o aluno junto -->
+
+                        <input type="hidden"
+                               name="avaliacaoId"
+                               th:value="${a.id}">
+
+
+                        <input type="hidden"
+                               name="matriculaAluno"
+                               th:value="${aluno.matricula}">
+
+
+
+                        <input type="number"
+                               step="0.01"
+                               min="0"
+                               max="100"
+                               class="nota"
+                               name="nota"
+                               placeholder=""
+
+                               th:value="${mapaNotas.get(a.id + '-' + aluno.matricula) != null
+                               ? mapaNotas.get(a.id + '-' + aluno.matricula)
+                               : ''}">
+                    </td>
+
+
+                    <td>
+
+<span style="font-weight:bold;color:#2563eb"
+      th:text="${mapaFrequencia[aluno.matricula] != null ?
+      #numbers.formatDecimal(mapaFrequencia[aluno.matricula],1,2) + '%' :
+      '0%'}">
+
+0%
+
+</span>
+
+
+                    </td>
+
+                    <td>
+
+<span class="media"
+      th:text="${#numbers.formatDecimal(medias[aluno.matricula],1,2)}">
+
+0.00
+
+</span>
+
+                    </td>
+
+                    <td>
+
+
+<span
+        th:text="${situacao[aluno.matricula]}"
+        th:classappend="
+${situacao[aluno.matricula]=='Aprovado'}
+?
+'aprovado'
+:
+'reprovado'
+">
+
+</span>
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+            </table>
+
+
+
+
+            <button type="submit">
+
+                Salvar notas
+
+            </button>
+
+
+
+        </form>
+
+
+
+
+
+
+        <a class="voltar"
+           href="/notas">
+
+            ← Voltar
+
+        </a>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<script>
+
+
+    function abrirAvaliacao(){
+
+
+    document
+    .getElementById("avaliacaoBox")
+    .classList.toggle("abrir");
+
+
+    }
+
+
+
+    document
+    .querySelectorAll(".nota")
+    .forEach(campo=>{
+
+
+    campo.addEventListener("input",()=>{
+
+
+    let linha =
+    campo.closest("tr");
+
+
+    let campos =
+    linha.querySelectorAll(".nota");
+
+
+    let total=0;
+
+    let qtd=0;
+
+
+
+    campos.forEach(nota=>{
+
+
+    if(nota.value!=""){
+
+    total += Number(nota.value);
+
+    qtd++;
+
+    }
+
+
+    });
+
+
+
+    linha
+    .querySelector(".media")
+    .innerHTML =
+    qtd
+    ?
+    (total/qtd).toFixed(2)
+    :
+    "0.00";
+
+
+
+    });
+
+
+    });
+
+
+
+</script>
+<div class="modal" id="modalExcluir">
+
+
+    <div class="caixa-modal">
+
+
+        <h3>
+            Tem certeza que deseja excluir?
+        </h3>
+
+
+        <form action="/professor/excluir-avaliacao"
+              method="post">
+
+
+            <input type="hidden"
+                   id="avaliacaoExcluir"
+                   name="avaliacaoId">
+
+
+            <input type="hidden"
+                   name="disciplinaId"
+                   th:value="${disciplinaId}">
+
+
+            <input type="hidden"
+                   name="periodo"
+                   th:value="${periodo}">
+
+
+            <button type="submit">
+
+                Excluir
+
+            </button>
+
+
+            <button type="button"
+                    onclick="fecharExcluir()">
+
+                Cancelar
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    function abrirExcluir(id){
+
+    document
+    .getElementById("avaliacaoExcluir")
+    .value=id;
+
+
+    document
+    .getElementById("modalExcluir")
+    .classList.add("ativo");
+
+    }
+
+
+
+    function fecharExcluir(){
+
+    document
+    .getElementById("modalExcluir")
+    .classList.remove("ativo");
+
+    }
+
+
+</script>
+
+<script>
+
+setTimeout(function(){
+
+document
+.querySelectorAll(".mensagem")
+.forEach(function(msg){
+
+msg.style.opacity="0";
+msg.style.transition="0.5s";
+
+setTimeout(function(){
+msg.remove();
+},500);
+
+});
+
+
+},3000);
+
+
+</script>
+
+
+</body>
+
+</html>

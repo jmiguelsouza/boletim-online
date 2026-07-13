@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 12% 20%, rgba(59, 130, 246, 0.18), transparent 220px),
+                radial-gradient(circle at 88% 78%, rgba(96, 165, 250, 0.20), transparent 280px),
+                linear-gradient(135deg, #eef4ff 0%, #f8fbff 50%, #edf3ff 100%);
+            overflow-x: hidden;
+            position: relative;
+            color: #1f3b63;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(59, 130, 246, 0.10) 1px, transparent 1px);
+            background-size: 22px 22px;
+            pointer-events: none;
+            z-index: 0;
+            animation: moverGrid 16s ease-in-out infinite;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.22), rgba(96, 165, 250, 0.05));
+            right: -120px;
+            bottom: -120px;
+            filter: blur(8px);
+            z-index: 0;
+            animation: flutuar 8s ease-in-out infinite;
+        }
+
+        .circulo-bg {
+            position: fixed;
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(2px);
+            opacity: 0.55;
+            animation: flutuar 7s ease-in-out infinite;
+        }
+
+        .circulo1 {
+            width: 230px;
+            height: 230px;
+            top: 90px;
+            left: 30px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.30), rgba(96, 165, 250, 0.08));
+        }
+
+        .circulo2 {
+            width: 160px;
+            height: 160px;
+            top: 220px;
+            right: 90px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 0.26), rgba(147, 197, 253, 0.05));
+            animation-delay: 1s;
+        }
+
+        .linha-tech {
+            position: fixed;
+            z-index: 0;
+            opacity: 0.5;
+            background: linear-gradient(to bottom, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.45), rgba(59, 130, 246, 0));
+        }
+
+        .linha1 {
+            width: 2px;
+            height: 160px;
+            left: 180px;
+            top: 170px;
+        }
+
+        .linha2 {
+            width: 130px;
+            height: 2px;
+            left: 180px;
+            top: 250px;
+            background: linear-gradient(to right, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.45), rgba(59, 130, 246, 0));
+        }
+
+        .ponto-tech {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(96, 165, 250, 0.75);
+            box-shadow: 0 0 14px rgba(96, 165, 250, 0.55);
+            z-index: 0;
+            animation: brilho 3s ease-in-out infinite;
+        }
+
+        .ponto1 {
+            left: 175px;
+            top: 245px;
+        }
+
+        .ponto2 {
+            left: 305px;
+            top: 245px;
+            animation-delay: 1s;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 20px;
+            animation: subir 0.7s ease;
+        }
+
+        .painel {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(147, 197, 253, 0.38);
+            border-radius: 28px;
+            box-shadow: 0 18px 45px rgba(37, 99, 235, 0.10);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .barra-topo {
+            height: 8px;
+            background: linear-gradient(90deg, #60a5fa, #2563eb, #93c5fd, #3b82f6, #60a5fa);
+            background-size: 300% 100%;
+            animation: gradienteTopo 5s linear infinite;
+        }
+
+        .conteudo {
+            padding: 30px;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .titulo-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .icone {
+            width: 62px;
+            height: 62px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 10px 24px rgba(59, 130, 246, 0.24);
+        }
+
+        .titulo-area h1 {
+            font-size: 2rem;
+            color: #243f68;
+            margin-bottom: 6px;
+        }
+
+        .titulo-area p {
+            color: #607a9e;
+            font-size: 1rem;
+        }
+
+        .acoes-topo {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .botao {
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            transition: 0.25s ease;
+            display: inline-block;
+        }
+
+        .botao-voltar {
+            background: rgba(255, 255, 255, 0.75);
+            color: #28508a;
+            border: 1px solid #c8dbfb;
+        }
+
+        .botao-voltar:hover {
+            transform: translateY(-2px);
+            background: white;
+        }
+
+        .botao-cadastro {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+        }
+
+        .botao-cadastro:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .card-resumo,
+        .filtro-card {
+            background: rgba(255, 255, 255, 0.70);
+            border: 1px solid rgba(191, 219, 254, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 26px rgba(59, 130, 246, 0.08);
+        }
+
+        .card-resumo h3,
+        .filtro-card h3 {
+            color: #3a5e8a;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .card-resumo .valor {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1d4ed8;
+        }
+
+        .card-resumo .descricao {
+            margin-top: 6px;
+            color: #6b84a6;
+            font-size: 0.92rem;
+        }
+
+        .filtros-periodo {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filtro {
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: #e5edff;
+            color: #1e3a8a;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #c7dbff;
+            transition: all 0.3s ease;
+        }
+
+        .filtro:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .lista-box {
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(191, 219, 254, 0.85);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 14px 35px rgba(59, 130, 246, 0.08);
+        }
+
+        .lista-topo {
+            margin-bottom: 22px;
+        }
+
+        .lista-topo h2 {
+            font-size: 1.35rem;
+            color: #24446f;
+            margin-bottom: 6px;
+        }
+
+        .lista-topo p {
+            color: #6b84a6;
+        }
+
+        .lista-alunos {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .aluno-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(239,246,255,0.88));
+            border: 1px solid #dbeafe;
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: 0 10px 26px rgba(59, 130, 246, 0.08);
+            transition: 0.25s ease;
+            animation: aparecerCard 0.5s ease;
+        }
+
+        .aluno-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 32px rgba(59, 130, 246, 0.12);
+        }
+
+        .aluno-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .aluno-topo h3 {
+            color: #1f3f69;
+            font-size: 1.25rem;
+        }
+
+        .aluno-topo-direita {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge-periodo {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(191, 219, 254, 0.75);
+            color: #1e40af;
+            border: 1px solid rgba(96, 165, 250, 0.32);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .botao-excluir {
+            text-decoration: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(220, 38, 38, 0.25);
+            border: none;
+            cursor: pointer;
+        }
+
+        .botao-excluir:hover {
+            transform: scale(1.12);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.35);
+        }
+
+        .aluno-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.65);
+            border: 1px solid #e4efff;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .info-item .label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #6882a5;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .info-item .valor {
+            color: #24456f;
+            font-size: 0.97rem;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .sem-alunos {
+            text-align: center;
+            padding: 35px 20px;
+            color: #6a84a8;
+            font-weight: 600;
+        }
+
+        .rodape {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #dbeafe;
+            text-align: center;
+            color: #6b84a6;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .modal-overlay.ativo {
+            display: flex;
+        }
+
+        .modal-confirmacao {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid #dbeafe;
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(30, 64, 175, 0.20);
+            padding: 28px;
+            animation: aparecerModal 0.25s ease;
+        }
+
+        .modal-icone {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 18px;
+        }
+
+        .modal-confirmacao h3 {
+            font-size: 1.35rem;
+            color: #1f3f69;
+            margin-bottom: 10px;
+        }
+
+        .modal-confirmacao p {
+            color: #607a9e;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .modal-botoes {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-modal {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .btn-cancelar {
+            background: #eef4ff;
+            color: #28508a;
+            border: 1px solid #d3e3ff;
+        }
+
+        .btn-cancelar:hover {
+            transform: translateY(-2px);
+            background: #e4eeff;
+        }
+
+        .btn-confirmar {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 10px 22px rgba(220, 38, 38, 0.22);
+        }
+
+        .btn-confirmar:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes subir {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes aparecerCard {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes aparecerModal {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes flutuar {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes brilho {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.55;
+            }
+            50% {
+                transform: scale(1.35);
+                opacity: 1;
+            }
+        }
+
+        @keyframes gradienteTopo {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes moverGrid {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
+        @media (max-width: 950px) {
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .aluno-info {
+                grid-template-columns: 1fr;
+            }
+
+            .titulo-area h1 {
+                font-size: 1.7rem;
+            }
+
+            .conteudo {
+                padding: 22px;
+            }
+        }
+        .botao-editar {
+            padding: 8px 14px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+
+            cursor: pointer;
+            border: none;
+
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+        }
+
+        .botao-editar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.35);
+        }
+    </style>
+</head>
+<body>
+
+<div class="circulo-bg circulo1"></div>
+<div class="circulo-bg circulo2"></div>
+<div class="linha-tech linha1"></div>
+<div class="linha-tech linha2"></div>
+<div class="ponto-tech ponto1"></div>
+<div class="ponto-tech ponto2"></div>
+
+<div class="container">
+    <div class="painel">
+        <div class="barra-topo"></div>
+
+        <div class="conteudo">
+            <div class="topo">
+                <div class="titulo-area">
+                    <div class="icone">🎓</div>
+                    <div>
+                        <h1>Lista de Alunos</h1>
+                        <p>Visualize todos os alunos cadastrados no sistema Boletim Online.</p>
+                    </div>
+                </div>
+
+                <div class="acoes-topo">
+                    <a href="/admin" class="botao botao-voltar">← Voltar</a>
+                    <a href="/cadastro-usuario" class="botao botao-cadastro">+ Cadastrar Usuário</a>
+                </div>
+            </div>
+
+            <div class="resumo">
+                <div class="card-resumo">
+                    <h3>Total de alunos</h3>
+                    <div class="valor" th:text="${#lists.size(alunos)}">0</div>
+                    <div class="descricao">Quantidade de alunos cadastrados no sistema</div>
+                </div>
+
+                <div class="card-resumo">
+                    <h3>Área</h3>
+                    <div class="valor">Admin</div>
+                    <div class="descricao">Visualização administrativa dos registros</div>
+                </div>
+
+                <div class="filtro-card">
+                    <h3>Filtrar por período</h3>
+                    <div class="filtros-periodo">
+                        <a href="/admin/alunos?periodo=Primeiro" class="filtro">1º Período</a>
+                        <a href="/admin/alunos?periodo=Segundo" class="filtro">2º Período</a>
+                        <a href="/admin/alunos?periodo=Terceiro" class="filtro">3º Período</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lista-box">
+                <div class="lista-topo">
+                    <h2>Alunos cadastrados</h2>
+                    <p>Confira os dados principais de cada aluno em formato de lista.</p>
+                </div>
+
+                <form action="/admin/alunos" method="get"
+                      style="
+                display:flex;
+                gap:12px;
+                margin-top:18px;
+                margin-bottom:20px;
+                flex-wrap:wrap;
+              ">
+
+                    <input
+                            type="text"
+                            name="nome"
+                            placeholder="Pesquisar aluno pelo nome..."
+                            th:value="${nome}"
+
+                            style="
+                flex:1;
+                min-width:260px;
+                padding:12px 16px;
+                border-radius:14px;
+                border:1px solid #c8dbfb;
+                background:white;
+                font-size:15px;
+                outline:none;
+            ">
+
+                    <button
+                            type="submit"
+
+                            style="
+                padding:12px 22px;
+                border:none;
+                border-radius:14px;
+                background:linear-gradient(135deg,#3b82f6,#2563eb);
+                color:white;
+                font-weight:bold;
+                cursor:pointer;
+            ">
+
+                        Pesquisar
+
+                    </button>
+
+                </form>
+
+                <div class="lista-alunos" th:if="${not #lists.isEmpty(alunos)}">
+
+                    <div class="aluno-card" th:each="aluno : ${alunos}">
+                        <div class="aluno-topo">
+                            <h3 th:text="${aluno.nome}">Nome do Aluno</h3>
+
+                            <div class="aluno-topo-direita">
+                                <span class="badge-periodo" th:text="${aluno.periodoTurma}">Primeiro período</span>
+                                <!-- EDITAR -->
+                                <a th:href="@{'/editar-usuario/' + ${aluno.matricula}}"
+                                   class="botao-editar">
+                                    Editar
+                                </a>
+                                <button type="button"
+                                        class="botao-excluir"
+                                        th:attr="data-url=@{'/admin/alunos/excluir/' + ${aluno.matricula}}"
+                                        onclick="abrirModalExclusao(this)">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="aluno-info">
+                            <div class="info-item">
+                                <div class="label">Data de Nascimento</div>
+                                <div class="valor" th:text="${aluno.dataNascimento}">2000-01-01</div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="label">CPF</div>
+                                <div class="valor" th:text="${aluno.cpf}">000.000.000-00</div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="label">Matrícula</div>
+                                <div class="valor" th:text="${aluno.matricula}">20260001</div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="label">Email</div>
+                                <div class="valor" th:text="${aluno.email}">email@email.com</div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="label">Período / Turma</div>
+                                <div class="valor" th:text="${aluno.periodoTurma}">Primeiro período</div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="label">Status</div>
+                                <div class="valor" th:text="${aluno.status}">Ativo</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="sem-alunos" th:if="${#lists.isEmpty(alunos)}">
+                    Nenhum aluno cadastrado foi encontrado no sistema.
+                </div>
+            </div>
+
+            <div class="rodape">
+                Sistema Boletim Online • Área do Administrador • Lista de alunos
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalExclusao" class="modal-overlay">
+    <div class="modal-confirmacao">
+        <div class="modal-icone">🗑️</div>
+        <h3>Confirmar exclusão</h3>
+        <p>Você tem certeza que deseja excluir este usuário?</p>
+
+        <div class="modal-botoes">
+            <button type="button" class="btn-modal btn-cancelar" onclick="fecharModalExclusao()">
+                Cancelar
+            </button>
+            <button type="button" class="btn-modal btn-confirmar" onclick="confirmarExclusao()">
+                Excluir
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let urlExclusao = "";
+
+    function abrirModalExclusao(botao) {
+        urlExclusao = botao.getAttribute("data-url");
+        document.getElementById("modalExclusao").classList.add("ativo");
+    }
+
+    function fecharModalExclusao() {
+        urlExclusao = "";
+        document.getElementById("modalExclusao").classList.remove("ativo");
+    }
+
+    function confirmarExclusao() {
+        if (urlExclusao) {
+            window.location.href = urlExclusao;
+        }
+    }
+
+    window.addEventListener("click", function(event) {
+        const modal = document.getElementById("modalExclusao");
+        if (event.target === modal) {
+            fecharModalExclusao();
+        }
+    });
+
+    window.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            fecharModalExclusao();
+        }
+    });
+</script>
+
+</body>
+</html>

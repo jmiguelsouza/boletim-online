@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Área Professor</title>
+
+
+    <style>
+
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:"Segoe UI",Arial,sans-serif;
+        }
+
+
+
+        body{
+
+        min-height:100vh;
+
+        overflow:auto;
+
+        padding:35px;
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:flex-start;
+
+        background:
+        linear-gradient(
+        135deg,
+        #dbeafe,
+        #eff6ff,
+        #dbeafe
+        );
+
+        }
+
+
+
+        /* FUNDO ANIMADO */
+
+        .fundo{
+
+        position:fixed;
+
+        inset:0;
+
+        overflow:hidden;
+
+        z-index:-1;
+
+        }
+
+
+
+        .linha{
+
+        position:absolute;
+
+        height:2px;
+
+        background:
+        linear-gradient(
+        90deg,
+        transparent,
+        #2563eb,
+        transparent
+        );
+
+        opacity:.35;
+
+        animation:move 8s infinite;
+
+        }
+
+
+
+        .l1{
+
+        width:600px;
+
+        top:20%;
+
+        left:-250px;
+
+        }
+
+
+
+        .l2{
+
+        width:450px;
+
+        bottom:25%;
+
+        right:-200px;
+
+        animation-delay:2s;
+
+        }
+
+
+
+        .l3{
+
+        width:350px;
+
+        top:60%;
+
+        left:25%;
+
+        animation-delay:4s;
+
+        }
+
+
+
+
+        @keyframes move{
+
+        0%{
+
+        transform:translateX(-150px);
+
+        }
+
+
+        50%{
+
+        transform:translateX(180px);
+
+        }
+
+
+        100%{
+
+        transform:translateX(-150px);
+
+        }
+
+        }
+
+
+
+
+        .bola{
+
+        position:absolute;
+
+        width:10px;
+
+        height:10px;
+
+        border-radius:50%;
+
+        background:#3b82f6;
+
+        opacity:.4;
+
+        animation:pulse 4s infinite;
+
+        }
+
+
+
+        .b1{
+
+        top:15%;
+        left:20%;
+
+        }
+
+
+        .b2{
+
+        top:70%;
+        right:20%;
+
+        animation-delay:1s;
+
+        }
+
+
+        .b3{
+
+        top:40%;
+        right:10%;
+
+        animation-delay:2s;
+
+        }
+
+
+
+        @keyframes pulse{
+
+        50%{
+
+        transform:scale(2.5);
+
+        opacity:.1;
+
+        }
+
+        }
+
+
+
+
+        .container{
+
+        width:100%;
+
+        max-width:950px;
+
+        background:rgba(255,255,255,.92);
+
+        backdrop-filter:blur(15px);
+
+        border-radius:30px;
+
+        overflow:hidden;
+
+        box-shadow:
+
+        0 25px 70px rgba(37,99,235,.25);
+
+        animation:entrada .5s;
+
+        }
+
+
+
+
+        @keyframes entrada{
+
+        from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+        }
+
+        to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+        }
+
+        }
+
+
+
+
+        .topo{
+
+        height:8px;
+
+        background:
+
+        linear-gradient(
+        90deg,
+        #1d4ed8,
+        #60a5fa,
+        #1d4ed8
+        );
+
+        }
+
+
+
+        .conteudo{
+
+        padding:40px;
+
+        }
+
+
+
+
+        .cabecalho{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        margin-bottom:35px;
+
+        }
+
+
+
+        h1{
+
+        font-size:32px;
+
+        color:#1e3a8a;
+
+        }
+
+
+
+        .sub{
+
+        margin-top:10px;
+
+        color:#64748b;
+
+        }
+
+
+
+
+
+        /* MENU */
+
+
+        .engrenagem{
+
+        position:relative;
+
+        }
+
+
+
+        .btn{
+
+        width:60px;
+
+        height:60px;
+
+        border:none;
+
+        border-radius:20px;
+
+        cursor:pointer;
+
+        font-size:28px;
+
+        background:
+
+        linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+        );
+
+        color:white;
+
+        box-shadow:
+        0 12px 25px rgba(37,99,235,.3);
+
+        }
+
+
+
+
+        .menu{
+
+        position:absolute;
+
+        right:0;
+
+        top:70px;
+
+        width:180px;
+
+        background:white;
+
+        border-radius:18px;
+
+        box-shadow:
+        0 20px 50px rgba(0,0,0,.2);
+
+        opacity:0;
+
+        visibility:hidden;
+
+        transition:.25s;
+
+        z-index:10;
+
+        }
+
+
+
+        .engrenagem:hover .menu{
+
+        opacity:1;
+
+        visibility:visible;
+
+        }
+
+
+
+
+        .menu a{
+
+        display:block;
+
+        padding:15px;
+
+        text-decoration:none;
+
+        color:#1e3a8a;
+
+        font-weight:bold;
+
+        }
+
+
+
+        .menu a:hover{
+
+        background:#eff6ff;
+
+        }
+
+
+
+
+
+        h2{
+
+        color:#1e3a8a;
+
+        margin-bottom:20px;
+
+        }
+
+
+
+
+        /* MATÉRIAS */
+
+
+        .lista{
+
+        display:grid;
+
+        grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+
+        gap:20px;
+
+        }
+
+
+
+
+        .materia{
+
+        text-decoration:none;
+
+        background:
+
+        linear-gradient(
+        135deg,
+        #eff6ff,
+        #ffffff
+        );
+
+        border-radius:22px;
+
+        padding:25px;
+
+        box-shadow:
+
+        0 15px 35px rgba(37,99,235,.12);
+
+        transition:.25s;
+
+        border:1px solid #dbeafe;
+
+        }
+
+
+
+        .materia:hover{
+
+        transform:translateY(-8px);
+
+        box-shadow:
+
+        0 25px 50px rgba(37,99,235,.25);
+
+        }
+
+
+
+
+        .nome{
+
+        font-size:22px;
+
+        font-weight:bold;
+
+        color:#1e40af;
+
+        }
+
+
+
+        .periodo{
+
+        margin-top:12px;
+
+        color:#64748b;
+
+        }
+
+
+
+
+        /* MODAL */
+
+
+        .modal{
+
+        display:none;
+
+        position:fixed;
+
+        inset:0;
+
+        background:
+
+        rgba(15,23,42,.55);
+
+        backdrop-filter:blur(5px);
+
+        justify-content:center;
+
+        align-items:center;
+
+        z-index:50;
+
+        }
+
+
+
+        .caixa{
+
+        background:white;
+
+        padding:35px;
+
+        width:380px;
+
+        border-radius:25px;
+
+        text-align:center;
+
+        box-shadow:
+        0 30px 70px rgba(0,0,0,.3);
+
+        }
+
+
+
+        .caixa h2{
+
+        color:#dc2626;
+
+        margin-bottom:15px;
+
+        }
+
+
+
+        .caixa p{
+
+        color:#64748b;
+
+        margin-bottom:25px;
+
+        }
+
+
+
+        .confirmar{
+
+        background:#dc2626;
+
+        color:white;
+
+        border:none;
+
+        padding:13px 25px;
+
+        border-radius:12px;
+
+        cursor:pointer;
+
+        }
+
+
+
+        .cancelar{
+
+        background:#e2e8f0;
+
+        border:none;
+
+        padding:13px 25px;
+
+        border-radius:12px;
+
+        margin-left:10px;
+
+        cursor:pointer;
+
+        }
+
+
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+<div class="fundo">
+
+    <div class="linha l1"></div>
+
+    <div class="linha l2"></div>
+
+    <div class="linha l3"></div>
+
+
+    <div class="bola b1"></div>
+
+    <div class="bola b2"></div>
+
+    <div class="bola b3"></div>
+
+
+</div>
+
+
+
+
+
+<div class="container">
+
+
+    <div class="topo"></div>
+
+
+    <div class="conteudo">
+
+
+
+        <div class="cabecalho">
+
+
+            <div>
+
+                <h1>
+                    Área do Professor 👨‍🏫
+                </h1>
+
+
+                <p class="sub">
+
+                    Bem vindo,
+                    <span th:text="${professor.nome}"></span>
+
+                </p>
+
+
+            </div>
+
+
+
+
+            <div class="engrenagem">
+
+
+                <button class="btn">
+
+                    ⚙
+
+                </button>
+
+
+                <div class="menu">
+
+
+                    <a href="/minha-conta">
+                        Minha Conta
+                    </a>
+
+
+                    <a href="#" onclick="abrirSair()">
+                        Sair
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <h2>
+            Suas matérias
+        </h2>
+
+
+
+
+        <div class="lista">
+
+
+
+            <a class="materia"
+               th:each="r:${relacoes}"
+               th:href="@{/professor/notas(
+                   disciplinaId=${r.disciplina.id},
+                   periodo=${r.periodo}
+               )}">
+
+
+
+                <div class="nome"
+                     th:text="${r.disciplina.nome}">
+                </div>
+
+
+
+                <div class="periodo">
+
+                    Período:
+
+                    <span th:text="${r.periodo}">
+</span>
+
+                </div>
+
+
+            </a>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<div class="modal" id="modal">
+
+
+    <div class="caixa">
+
+
+        <h2>
+            Sair do sistema?
+        </h2>
+
+
+        <p>
+            Tem certeza que deseja sair?
+        </p>
+
+
+
+        <button class="confirmar"
+                onclick="sair()">
+
+            Sim, sair
+
+        </button>
+
+
+
+        <button class="cancelar"
+                onclick="fechar()">
+
+            Cancelar
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+
+    function abrirSair(){
+
+    document.getElementById("modal")
+    .style.display="flex";
+
+    }
+
+
+
+    function fechar(){
+
+    document.getElementById("modal")
+    .style.display="none";
+
+    }
+
+
+
+    function sair(){
+
+    window.location="/logout";
+
+    }
+
+
+</script>
+
+
+
+</body>
+
+</html>
