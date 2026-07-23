@@ -30,15 +30,12 @@ Todo o sistema foi desenvolvido do zero utilizando Java, Spring Boot, Thymeleaf 
 
 ## 🚀 Tecnologias Utilizadas
 
-- Java
-- Spring Boot
-- Spring Data JPA
-- Thymeleaf
-- HTML5
-- CSS3
-- JavaScript
-- MySQL
-- Maven
+| Categoria | Tecnologias |
+|-----------|-------------|
+| **Back-end** | Java, Spring Boot, Spring Data JPA |
+| **Front-end** | HTML5, CSS3, JavaScript, Thymeleaf |
+| **Banco de Dados** | MySQL |
+| **Ferramentas** | IntelliJ IDEA, MySQL Workbench, Git, GitHub |
 
 ---
 
