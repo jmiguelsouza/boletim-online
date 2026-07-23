@@ -135,16 +135,6 @@ Exibe todos os usuários cadastrados como professores, permitindo ao administrad
 
 ---
 
-## 👤 Minha Conta
-
-*(Adicionar imagem)*
-
-```markdown
-![MinhaConta](images/MinhaConta.jpeg)
-```
-
----
-
 ## ✏️ Editar Usuário
 
 Permite ao administrador atualizar os dados cadastrais de alunos e professores, mantendo as informações sempre corretas e atualizadas.
