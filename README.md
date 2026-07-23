@@ -20,6 +20,12 @@ O sistema permite o gerenciamento de notas, frequência, disciplinas e usuários
 
 Este projeto foi desenvolvido utilizando Java com Spring Boot, banco de dados MySQL e Thymeleaf como mecanismo de renderização das páginas.
 
+O **Boletim Online** é um sistema web de gerenciamento escolar desenvolvido como Projeto de Conclusão do Curso Técnico em Informática da FAETEC.
+
+O funcionamento do sistema foi inspirado no modelo de gerenciamento acadêmico utilizado pela FAETEC, buscando reproduzir de forma prática as principais funcionalidades presentes no ambiente escolar, como gerenciamento de usuários, disciplinas, notas e frequência.
+
+Todo o sistema foi desenvolvido do zero utilizando Java, Spring Boot, Thymeleaf e MySQL, aplicando conceitos de arquitetura MVC, banco de dados relacional e desenvolvimento web.
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
