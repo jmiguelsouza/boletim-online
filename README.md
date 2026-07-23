@@ -104,10 +104,8 @@ A autenticação é realizada utilizando e-mail, senha, CPF e data de nascimento
 
 ## 🛠️ Painel Administrativo
 
-*(Adicionar imagem)*
-
 ```markdown
-![Painel](images/Admin.jpeg)
+![Painel](images/TelaAdm.jpeg)
 ```
 
 ---
