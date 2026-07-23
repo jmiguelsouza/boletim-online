@@ -104,39 +104,34 @@ A autenticação é realizada utilizando e-mail, senha, CPF e data de nascimento
 
 ## 🛠️ Painel Administrativo
 
-```markdown
-![Painel](images/TelaAdm.jpeg)
-```
+O painel administrativo centraliza as principais funções do sistema, permitindo ao administrador gerenciar usuários, acessar listas de alunos e professores e realizar as operações administrativas.
+
+![Painel Administrativo](images/TelaAdm.jpeg)
 
 ---
 
 ## 👤 Cadastro de Usuário
 
-*(Adicionar imagem)*
 
-```markdown
-![Cadastro](images/Cadastro.jpeg)
-```
+Esta tela permite o cadastro de novos alunos, professores e administradores, registrando todas as informações necessárias para utilização do sistema.
+
+![Cadastro de Usuários](images/TelaCadastro.jpeg)
 
 ---
 
 ## 📚 Lista de Alunos
 
-*(Adicionar imagem)*
+Exibe todos os usuários cadastrados como alunos, permitindo ao administrador consultar, localizar e selecionar registros para edição.
 
-```markdown
-![Alunos](images/ListaAlunos.jpeg)
-```
+![Lista de Alunos](images/ListaAlunos.jpeg)
 
 ---
 
 ## 👨‍🏫 Lista de Professores
 
-*(Adicionar imagem)*
+Exibe todos os usuários cadastrados como professores, permitindo ao administrador consultar, localizar e selecionar registros para edição.
 
-```markdown
-![Professores](images/ListaProfessores.jpeg)
-```
+![Lista de Alunos](images/ListaProfessor.jpeg)
 
 ---
 
@@ -149,6 +144,52 @@ A autenticação é realizada utilizando e-mail, senha, CPF e data de nascimento
 ```
 
 ---
+
+## ✏️ Editar Usuário
+
+Permite ao administrador atualizar os dados cadastrais de alunos e professores, mantendo as informações sempre corretas e atualizadas.
+
+![Editar Usuário](images/EditarUsuario.jpeg)
+
+---
+
+## 👤 Minha Conta
+
+Área destinada ao usuário autenticado, onde é possível visualizar suas informações pessoais e atualizar os próprios dados cadastrais.
+
+![Minha Conta](images/TelaMinhaConta.jpeg)
+
+---
+
+## 📚 Área do Professor
+
+Nesta página, o professor visualiza as disciplinas e períodos sob sua responsabilidade, acessando rapidamente as funcionalidades de lançamento de notas e frequência.
+
+![Área do Professor](images/TelaProfessor.jpeg)
+
+---
+
+## 📝 Lançamento de Notas
+
+Permite ao professor registrar e editar as notas dos alunos, além de cadastrar avaliações para cada disciplina e turma.
+
+![Lançamento de Notas](images/BoletimTurma.jpeg)
+
+---
+
+## 📅 Lançamento de Frequência
+
+Tela destinada ao registro da frequência dos alunos, permitindo informar o total de aulas ministradas e a quantidade de presenças de cada estudante.
+
+![Lançamento de Frequência](images/LançarFrequencia.jpeg)
+
+---
+
+## 🎓 Boletim do Aluno
+
+Nesta área, o aluno pode acompanhar seu desempenho acadêmico, consultando notas, frequência e a situação em cada disciplina.
+
+![Boletim do Aluno](images/BoletimAluno.jpeg)
 
 # ▶️ Como Executar
 
