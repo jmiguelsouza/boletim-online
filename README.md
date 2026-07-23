@@ -1,4 +1,5 @@
-# 📚 Boletim Online - Sistema de Gerenciamento Escolar
+# 📚 Boletim Online
+
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white)
@@ -7,88 +8,175 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
+Sistema web de gerenciamento escolar desenvolvido como **Projeto de Conclusão do Curso Técnico em Informática da FAETEC**.
 
-Sistema web desenvolvido como Projeto de Conclusão do Curso Técnico em Informática da FAETEC.
-
----
-
-## 📖 Sobre o Projeto
-
-O **Boletim Online** é um sistema de gerenciamento escolar desenvolvido para facilitar o controle acadêmico de alunos, professores e administradores.
-
-O sistema permite o gerenciamento de notas, frequência, disciplinas e usuários, oferecendo diferentes funcionalidades de acordo com o perfil de acesso.
-
-Este projeto foi desenvolvido utilizando Java com Spring Boot, banco de dados MySQL e Thymeleaf como mecanismo de renderização das páginas.
-
-O **Boletim Online** é um sistema web de gerenciamento escolar desenvolvido como Projeto de Conclusão do Curso Técnico em Informática da FAETEC.
-
-O funcionamento do sistema foi inspirado no modelo de gerenciamento acadêmico utilizado pela FAETEC, buscando reproduzir de forma prática as principais funcionalidades presentes no ambiente escolar, como gerenciamento de usuários, disciplinas, notas e frequência.
-
-Todo o sistema foi desenvolvido do zero utilizando Java, Spring Boot, Thymeleaf e MySQL, aplicando conceitos de arquitetura MVC, banco de dados relacional e desenvolvimento web.
+O funcionamento do sistema foi inspirado no modelo de gerenciamento acadêmico utilizado pela FAETEC, sendo desenvolvido do zero para aplicar, na prática, conhecimentos de desenvolvimento web, banco de dados e arquitetura MVC.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+# 🎯 Objetivo
+
+Desenvolver um sistema web capaz de gerenciar alunos, professores e administradores, permitindo o controle acadêmico de forma organizada e intuitiva.
+
+O projeto foi desenvolvido para consolidar os conhecimentos adquiridos durante o Curso Técnico em Informática, aplicando tecnologias utilizadas no mercado de desenvolvimento Java.
+
+---
+
+# 🚀 Tecnologias Utilizadas
 
 | Categoria | Tecnologias |
 |-----------|-------------|
 | **Back-end** | Java, Spring Boot, Spring Data JPA |
 | **Front-end** | HTML5, CSS3, JavaScript, Thymeleaf |
 | **Banco de Dados** | MySQL |
-| **Ferramentas** | IntelliJ IDEA, MySQL Workbench, Git, GitHub |
+| **Ferramentas** | IntelliJ IDEA, MySQL Workbench, Git e GitHub |
 
 ---
 
-## 🎯 Objetivo
+# ✨ Funcionalidades
 
-Desenvolver um sistema web capaz de reproduzir o fluxo de gerenciamento acadêmico utilizado pela FAETEC, oferecendo diferentes níveis de acesso para administradores, professores e alunos.
-
-O projeto teve como objetivo aplicar, na prática, os conhecimentos adquiridos durante o Curso Técnico em Informática, utilizando tecnologias modernas para desenvolver uma aplicação completa e funcional.
-
----
-
-## ✨ Funcionalidades
-
-- Login de usuários
-- Cadastro de alunos
-- Cadastro de professores
-- Cadastro de administradores
-- Gerenciamento de disciplinas
-- Controle de notas
-- Controle de frequência
-- Painel administrativo
-- Banco de dados relacional
+- Sistema de Login
+- Painel Administrativo
+- Cadastro de Alunos
+- Cadastro de Professores
+- Cadastro de Administradores
+- Gerenciamento de Disciplinas
+- Controle de Notas
+- Controle de Frequência
+- Controle de Aprovação
+- Banco de Dados Relacional
+- Controle de Usuários
+- Interface Responsiva
 - Arquitetura MVC
 
 ---
 
-## 🛠 Ferramentas Utilizadas
+# 👥 Níveis de Acesso
 
-- IntelliJ IDEA
-- MySQL Workbench
-- Git
-- GitHub
+### 👨‍💼 Administrador
+
+- Gerenciar usuários
+- Cadastrar alunos
+- Cadastrar professores
+- Gerenciar disciplinas
+- Alterar configurações do sistema
+
+### 👨‍🏫 Professor
+
+- Visualizar disciplinas
+- Lançar notas
+- Registrar frequência
+- Editar avaliações
+
+### 👨‍🎓 Aluno
+
+- Consultar boletim
+- Visualizar notas
+- Consultar frequência
 
 ---
 
-## 👨‍💻 Desenvolvedor
+# 🏗️ Arquitetura
 
-**Jhonatan Miguel Souza Silva**
+O projeto foi desenvolvido utilizando a arquitetura **MVC (Model-View-Controller)**.
 
-Projeto desenvolvido como Trabalho de Conclusão do Curso Técnico em Informática da FAETEC.
+```
+src
+├── controller
+├── model
+├── repository
+├── service
+├── templates
+└── static
+```
 
 ---
 
-## 📸 Capturas de Tela
+# 📸 Capturas de Tela
 
 ## 🔐 Tela de Login
 
-A tela de login realiza a autenticação dos usuários por meio de e-mail, senha, CPF e data de nascimento. Após a validação, cada usuário é direcionado para sua área específica conforme seu perfil (Administrador, Professor ou Aluno).
+A autenticação é realizada utilizando e-mail, senha, CPF e data de nascimento.
 
 ![Tela de Login](images/TelaLogin.jpeg)
 
 ---
 
-## 📄 Licença
+## 🛠️ Painel Administrativo
 
-Este projeto foi desenvolvido exclusivamente para fins acadêmicos.
+*(Adicionar imagem)*
+
+```markdown
+![Painel](images/Admin.jpeg)
+```
+
+---
+
+## 👤 Cadastro de Usuário
+
+*(Adicionar imagem)*
+
+```markdown
+![Cadastro](images/Cadastro.jpeg)
+```
+
+---
+
+## 📚 Lista de Alunos
+
+*(Adicionar imagem)*
+
+```markdown
+![Alunos](images/ListaAlunos.jpeg)
+```
+
+---
+
+## 👨‍🏫 Lista de Professores
+
+*(Adicionar imagem)*
+
+```markdown
+![Professores](images/ListaProfessores.jpeg)
+```
+
+---
+
+## 👤 Minha Conta
+
+*(Adicionar imagem)*
+
+```markdown
+![MinhaConta](images/MinhaConta.jpeg)
+```
+
+---
+
+# ▶️ Como Executar
+
+1. Clone este repositório.
+2. Configure o banco de dados MySQL.
+3. Atualize as credenciais no arquivo `application.properties`.
+4. Execute o projeto utilizando o IntelliJ IDEA.
+5. Acesse:
+
+```
+http://localhost:8080
+```
+
+---
+
+# 👨‍💻 Desenvolvedor
+
+**Jhonatan Miguel Souza Silva**
+
+Curso Técnico em Informática — FAETEC
+
+GitHub:
+https://github.com/jmiguelsouza
+
+---
+
+# 📄 Licença
+
+Projeto desenvolvido exclusivamente para fins acadêmicos.
