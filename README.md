@@ -42,6 +42,14 @@ Todo o sistema foi desenvolvido do zero utilizando Java, Spring Boot, Thymeleaf 
 
 ---
 
+## 🎯 Objetivo
+
+Desenvolver um sistema web capaz de reproduzir o fluxo de gerenciamento acadêmico utilizado pela FAETEC, oferecendo diferentes níveis de acesso para administradores, professores e alunos.
+
+O projeto teve como objetivo aplicar, na prática, os conhecimentos adquiridos durante o Curso Técnico em Informática, utilizando tecnologias modernas para desenvolver uma aplicação completa e funcional.
+
+---
+
 ## ✨ Funcionalidades
 
 - Login de usuários
