@@ -84,7 +84,11 @@ Projeto desenvolvido como Trabalho de Conclusão do Curso Técnico em Informáti
 
 ## 📸 Capturas de Tela
 
-*Em breve serão adicionadas imagens do sistema.*
+## 🔐 Tela de Login
+
+A tela de login realiza a autenticação dos usuários por meio de e-mail, senha, CPF e data de nascimento. Após a validação, cada usuário é direcionado para sua área específica conforme seu perfil (Administrador, Professor ou Aluno).
+
+![Tela de Login](images/TelaLogin.jpeg)
 
 ---
 
